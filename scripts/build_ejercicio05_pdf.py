@@ -42,7 +42,7 @@ story.append(Paragraph(
 story.append(Spacer(1, 6))
 
 identificacion = [
-        ["Estudiante", "Edwing Perez · matrícula: PENDIENTE"],
+        ["Estudiante", "Edwing Perez"],
         ["Profesor", "Edwin Ramón José Nolasco"],
     ["Repositorio", REPO_URL],
     ["Dataset", "MovieLens Latest Small · GroupLens Research, University of Minnesota · uso académico con cita"],
