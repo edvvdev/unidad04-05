@@ -32,7 +32,7 @@ uv run python scripts/audit_data.py               # auditoría + reports/audit_s
 Para ejecutar el notebook de principio a fin:
 
 ```bash
-uv pip install --python .venv/bin/python jupyter nbformat ipykernel reportlab   # o: uv sync --group dev
+uv pip install --python .venv/bin/python jupyter nbformat ipykernel reportlab
 uv run python -m jupyter nbconvert --to notebook --execute --inplace \
   --ExecutePreprocessor.timeout=3600 notebooks/01_ejercicio05_recomendadores.ipynb
 uv run python scripts/build_ejercicio05_pdf.py
@@ -55,6 +55,19 @@ uv run python scripts/lab09_pareto.py              # tres semillas + frontera de
 # Aplicación local
 uv run streamlit run app/streamlit_app.py
 ```
+
+## Ejecución completa (un solo comando)
+
+```bash
+./scripts/run_all.sh          # macOS / Linux
+```
+```powershell
+.\scripts\run_all.ps1        # Windows
+```
+
+El script hace: entorno con uv → pruebas → descarga del dataset y auditoría → notebook ejecutado de
+principio a fin → PDF de entrega. Instala además Jupyter y `reportlab`, que **no** vienen en el
+grupo de desarrollo del proyecto base del profesor (`uv sync` solo instala pytest, pytest-cov y ruff).
 
 ## Resultados de referencia (2026-11-02, CPU, semilla 42)
 
