@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.py[cod]
+data/raw/*
+!data/raw/.gitkeep
+models/*
+!models/.gitkeep
+reports/*
+!reports/.gitkeep
+!reports/*.json
+!reports/*.csv
+!reports/*.png

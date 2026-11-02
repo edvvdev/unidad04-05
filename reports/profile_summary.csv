@@ -1,0 +1,4 @@
+perfil,userId,valoraciones_en_entrenamiento,en_entrenamiento,metodo
+historial amplio,414,2697,True,híbrido (colaborativo + contenido)
+historial pequeño,53,19,True,híbrido (colaborativo + contenido)
+usuario nuevo,999999,0,False,fallback de popularidad (no personalizado)

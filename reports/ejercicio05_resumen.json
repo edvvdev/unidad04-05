@@ -1,0 +1,80 @@
+{
+  "dataset": "MovieLens Latest Small (GroupLens Research, University of Minnesota)",
+  "licencia": "uso acad\u00e9mico con cita (Harper y Konstan, 2015, DOI 10.1145/2827872)",
+  "redistribucion": "no se redistribuye: se descarga por script y no se versiona",
+  "protocolo": "corte temporal leave-one-out, semilla 42",
+  "configuraciones": [
+    {
+      "configuracion": "mf10_alpha0.25",
+      "familia": "H\u00edbrido",
+      "hit_rate_at_10": 0.028960817717206135,
+      "catalog_coverage": 0.0838057932171941,
+      "rmse": 1.033666113980052,
+      "fit_time_s": 7.447715377000009,
+      "model_size_kb": 1077.2470703125
+    },
+    {
+      "configuracion": "mf10_alpha0.75",
+      "familia": "H\u00edbrido",
+      "hit_rate_at_10": 0.030664395229982964,
+      "catalog_coverage": 0.05772600762807958,
+      "rmse": 1.033666113980052,
+      "fit_time_s": 7.447715377000009,
+      "model_size_kb": 1077.2470703125
+    },
+    {
+      "configuracion": "mf20_alpha0.25",
+      "familia": "H\u00edbrido",
+      "hit_rate_at_10": 0.03236797274275979,
+      "catalog_coverage": 0.10648386764251108,
+      "rmse": 1.0264183126391635,
+      "fit_time_s": 7.515890049999939,
+      "model_size_kb": 1882.802734375
+    },
+    {
+      "configuracion": "mf20_alpha0.75",
+      "familia": "H\u00edbrido",
+      "hit_rate_at_10": 0.03747870528109029,
+      "catalog_coverage": 0.07751778167199258,
+      "rmse": 1.0264183126391635,
+      "fit_time_s": 7.515890049999939,
+      "model_size_kb": 1882.802734375
+    },
+    {
+      "configuracion": "mf40_alpha0.25",
+      "familia": "H\u00edbrido",
+      "hit_rate_at_10": 0.027257240204429302,
+      "catalog_coverage": 0.12266776620966911,
+      "rmse": 1.0210523333436168,
+      "fit_time_s": 7.921060350999937,
+      "model_size_kb": 3493.896484375
+    },
+    {
+      "configuracion": "mf40_alpha0.75",
+      "familia": "H\u00edbrido",
+      "hit_rate_at_10": 0.039182282793867124,
+      "catalog_coverage": 0.10060818472322441,
+      "rmse": 1.0210523333436168,
+      "fit_time_s": 7.921060350999937,
+      "model_size_kb": 3493.896484375
+    },
+    {
+      "configuracion": "contenido",
+      "familia": "Referencia",
+      "hit_rate_at_10": 0.0,
+      "catalog_coverage": 0.19070198948562003,
+      "rmse": NaN,
+      "fit_time_s": 0.0,
+      "model_size_kb": 0.0
+    },
+    {
+      "configuracion": "popularidad",
+      "familia": "Referencia",
+      "hit_rate_at_10": 0.021311475409836064,
+      "catalog_coverage": 0.0010308215647871354,
+      "rmse": NaN,
+      "fit_time_s": 0.0,
+      "model_size_kb": 0.0
+    }
+  ]
+}

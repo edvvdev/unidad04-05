@@ -1,0 +1,31 @@
+perfil,userId,rank,movieId,title,metodo,hybrid_score
+historial amplio,414,1,2324,Life Is Beautiful (La Vita è bella) (1997),híbrido (colaborativo + contenido),0.9308834298240197
+historial amplio,414,2,1203,12 Angry Men (1957),híbrido (colaborativo + contenido),0.8557627169901024
+historial amplio,414,3,914,My Fair Lady (1964),híbrido (colaborativo + contenido),0.6268685082026202
+historial amplio,414,4,92259,Intouchables (2011),híbrido (colaborativo + contenido),0.5973506589588922
+historial amplio,414,5,1230,Annie Hall (1977),híbrido (colaborativo + contenido),0.5914515879705349
+historial amplio,414,6,898,"Philadelphia Story, The (1940)",híbrido (colaborativo + contenido),0.5614086551454152
+historial amplio,414,7,1219,Psycho (1960),híbrido (colaborativo + contenido),0.5410974143757447
+historial amplio,414,8,44555,"Lives of Others, The (Das leben der Anderen) (2006)",híbrido (colaborativo + contenido),0.5063331712379164
+historial amplio,414,9,1287,Ben-Hur (1959),híbrido (colaborativo + contenido),0.4947290403932203
+historial amplio,414,10,74458,Shutter Island (2010),híbrido (colaborativo + contenido),0.4762579992020599
+historial pequeño,53,1,858,"Godfather, The (1972)",híbrido (colaborativo + contenido),0.8944949809382975
+historial pequeño,53,2,1230,Annie Hall (1977),híbrido (colaborativo + contenido),0.7778424512252733
+historial pequeño,53,3,1208,Apocalypse Now (1979),híbrido (colaborativo + contenido),0.7198672422550012
+historial pequeño,53,4,63082,Slumdog Millionaire (2008),híbrido (colaborativo + contenido),0.6348825481191402
+historial pequeño,53,5,1954,Rocky (1976),híbrido (colaborativo + contenido),0.6250120031705222
+historial pequeño,53,6,41285,Match Point (2005),híbrido (colaborativo + contenido),0.5813811238046539
+historial pequeño,53,7,1213,Goodfellas (1990),híbrido (colaborativo + contenido),0.5734723395169773
+historial pequeño,53,8,924,2001: A Space Odyssey (1968),híbrido (colaborativo + contenido),0.5431357181961564
+historial pequeño,53,9,5673,Punch-Drunk Love (2002),híbrido (colaborativo + contenido),0.4977640998518373
+historial pequeño,53,10,2671,Notting Hill (1999),híbrido (colaborativo + contenido),0.49464129755286157
+usuario nuevo,999999,1,318,"Shawshank Redemption, The (1994)",fallback de popularidad (NO personalizado),
+usuario nuevo,999999,2,858,"Godfather, The (1972)",fallback de popularidad (NO personalizado),
+usuario nuevo,999999,3,2959,Fight Club (1999),fallback de popularidad (NO personalizado),
+usuario nuevo,999999,4,260,Star Wars: Episode IV - A New Hope (1977),fallback de popularidad (NO personalizado),
+usuario nuevo,999999,5,50,"Usual Suspects, The (1995)",fallback de popularidad (NO personalizado),
+usuario nuevo,999999,6,1221,"Godfather: Part II, The (1974)",fallback de popularidad (NO personalizado),
+usuario nuevo,999999,7,527,Schindler's List (1993),fallback de popularidad (NO personalizado),
+usuario nuevo,999999,8,1213,Goodfellas (1990),fallback de popularidad (NO personalizado),
+usuario nuevo,999999,9,750,Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb (1964),fallback de popularidad (NO personalizado),
+usuario nuevo,999999,10,58559,"Dark Knight, The (2008)",fallback de popularidad (NO personalizado),
