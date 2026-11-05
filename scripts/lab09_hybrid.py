@@ -15,6 +15,7 @@ parser.add_argument("--factors", type=int, default=20)
 parser.add_argument("--epochs", type=int, default=12)
 parser.add_argument("--alpha", type=float, default=0.75)
 parser.add_argument("--seed", type=int, default=42)
+parser.add_argument("--out", default="hybrid_metrics.json", help="archivo JSON de salida dentro de reports/")
 parser.add_argument("--save-model", action="store_true", help="guarda el modelo de factorización en models/")
 args = parser.parse_args()
 
@@ -41,7 +42,7 @@ metrics = {
     "cold_start_policy": "popularidad por cantidad y media; no personalizada",
 }
 (ROOT / "reports").mkdir(exist_ok=True)
-(ROOT / "reports/hybrid_metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+(ROOT / "reports" / args.out).write_text(json.dumps(metrics, indent=2), encoding="utf-8")
 cold_start_items = popular_items[:10]
 movies[movies["movieId"].isin(cold_start_items)].set_index("movieId").loc[cold_start_items].reset_index().to_csv(
     ROOT / "reports/cold_start_fallback.csv", index=False
@@ -52,5 +53,6 @@ if args.save_model:
     model_path = models / f"mf_factors{args.factors}_epochs{args.epochs}_alpha{args.alpha}_seed{args.seed}.joblib"
     model_path.write_bytes(pickle.dumps(model))
     metrics["model_path"] = str(model_path.relative_to(ROOT))
-    (ROOT / "reports/hybrid_metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+    (ROOT / "reports" / args.out).write_text(json.dumps(metrics, indent=2), encoding="utf-8")
 print(json.dumps(metrics, indent=2))
+print("Guardado:", ROOT / "reports" / args.out)
