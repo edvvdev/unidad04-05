@@ -21,7 +21,7 @@ uv run python scripts/audit_data.py               # auditoría + reports/audit_s
 
 | Elemento | Dónde está |
 |---|---|
-| Notebook ejecutado | `notebooks/01_ejercicio05_recomendadores.ipynb` (19 celdas, con salidas) |
+| Notebook ejecutado | `notebooks/01_ejercicio05_recomendadores.ipynb` (21 celdas, con salidas) |
 | Código reutilizable | `src/inf8239_u03/` (`data`, `recommenders`, `hybrid`, `metrics`) |
 | Pruebas | `tests/` (`uv run pytest -q` → 7 passed) |
 | Métricas y figuras | `reports/` |
@@ -47,14 +47,18 @@ uv run python scripts/lab08_content.py --title "Matrix, The (1999)"   --out cont
 uv run python scripts/lab08_content.py --title "Godfather, The (1972)" --out content_recommendations_godfather.csv
 
 # LAB09 · factorización, corte temporal y sistema híbrido
-uv run python scripts/lab09_hybrid.py --factors 20 --epochs 12 --alpha 0.75
-uv run python scripts/lab09_hybrid.py --factors 20 --epochs 12 --alpha 0.25
+uv run python scripts/lab09_hybrid.py --factors 20 --epochs 12 --alpha 0.75 --out hybrid_metrics.json
+uv run python scripts/lab09_hybrid.py --factors 20 --epochs 12 --alpha 0.25 --out hybrid_metrics_alpha025.json
 uv run python scripts/lab09_profiles.py            # tres perfiles de usuario
 uv run python scripts/lab09_pareto.py              # tres semillas + frontera de Pareto
 
 # Aplicación local
 uv run streamlit run app/streamlit_app.py
 ```
+
+`scripts/lab09_hybrid.py` acepta `--out` para nombrar el JSON de métricas (por defecto
+`hybrid_metrics.json`); `scripts/lab09_pareto.py` escribe `reports/pareto_multiseed.csv` (18
+configuraciones) y `reports/pareto.png`.
 
 ## Ejecución completa (un solo comando)
 
@@ -65,38 +69,65 @@ uv run streamlit run app/streamlit_app.py
 .\scripts\run_all.ps1        # Windows
 ```
 
-El script hace: entorno con uv → pruebas → descarga del dataset y auditoría → notebook ejecutado de
-principio a fin → PDF de entrega. Instala además Jupyter y `reportlab`, que **no** vienen en el
-grupo de desarrollo del proyecto base del profesor (`uv sync` solo instala pytest, pytest-cov y ruff).
+El script hace, en este orden: entorno con uv → descarga del dataset y auditoría → LAB08 (las tres
+consultas por contenido) → LAB09 (híbrido con α=0,75 y α=0,25, perfiles de usuario y frontera de
+Pareto multistamillas) → notebook ejecutado de principio a fin → PDF de entrega → pruebas → resumen
+final con las cifras clave de la corrida. Instala además Jupyter y `reportlab`, que **no** vienen en
+el grupo de desarrollo del proyecto base del profesor (`uv sync` solo instala pytest, pytest-cov y
+ruff). El paso de Pareto multistamillas entrena 18 configuraciones con 3 repeticiones cada una y
+tarda varios minutos en CPU.
 
-## Resultados de referencia (2026-11-02, CPU, semilla 42)
+## Resultados de referencia (2026-11-05, CPU, semilla 42)
 
 | Evidencia | Archivo | Resultado |
 |---|---|---|
-| Dataset | `reports/audit_summary.json` | 100.836 valoraciones · 610 usuarios · 9.742 películas · densidad 1,70 % |
-| Baseline de popularidad | `reports/popular_top10.csv` | *The Shawshank Redemption* (4,3952) · *The Godfather* (4,2427) · *Fight Club* (4,2327) |
+| Dataset y auditoría | `reports/audit_summary.json` | 100.836 valoraciones · 610 usuarios · 9.742 películas · densidad 1,70 % · rango temporal 1996-03-29 – 2018-09-24 · 0 nulos · 5 títulos duplicados · 18 ítems sin valoración |
+| Baseline de popularidad | `reports/popular_top10.csv` | *Shawshank Redemption, The (1994)* (4,3952) · *Godfather, The (1972)* (4,2427) · *Fight Club (1999)* (4,2327) |
 | Contenido (3 consultas) | `reports/content_recommendations_*.csv` | 10 películas con `content_score` 1,0 por coincidencia exacta de géneros |
-| Híbrido α=0,75 | `reports/hybrid_metrics.json` | RMSE 1,0264 · HitRate@10 0,03748 · cobertura 7,75 % · 7,54 s · 1.883 KB |
-| Híbrido α=0,25 | `reports/hybrid_metrics_alpha025.json` | RMSE 1,0264 · HitRate@10 0,03237 · cobertura 10,65 % |
+| Híbrido α=0,75 | `reports/hybrid_metrics_alpha075.json` | RMSE 1,0264 · HitRate@10 0,03748 · cobertura 7,75 % · 7,43 s · 1.883 KB |
+| Híbrido α=0,25 | `reports/hybrid_metrics_alpha025.json` | RMSE 1,0264 · HitRate@10 0,03237 · cobertura 10,65 % · 7,74 s · 1.883 KB |
 | Tres perfiles | `reports/profile_recommendations.csv` | historial amplio (2.697 valoraciones), historial pequeño (19), usuario nuevo (fallback) |
-| Pareto (3 semillas × 3 tamaños × 2 α) | `reports/pareto_results.csv`, `reports/pareto.png` | frontera: 10 factores con α=0,75 (semillas 7 y 2024) y 20 factores con α=0,75 (semilla 2024); tiempo = mediana de 3 repeticiones |
+| Pareto multistamillas | `reports/pareto_multiseed.csv`, `reports/pareto.png` | 18 configuraciones (3 semillas × 3 tamaños × 2 α): HitRate@10 de 0,02044 a 0,05111; frontera: 10 factores con α=0,75 (semillas 42, 2024) |
+| Pareto de una semilla | `reports/pareto_results.csv` | 8 configuraciones (6 híbridas + 2 referencias) del corte temporal con semilla 42 |
 
-### Tabla consolidada del Ejercicio 05 (`reports/pareto_results.csv`)
+`reports/hybrid_metrics.json` es la corrida principal (α=0,75, 20 factores) y
+`reports/hybrid_metrics_alpha075.json` / `reports/hybrid_metrics_alpha025.json` separan cada α. Los
+tiempos de ajuste son los medidos en la corrida del 2026-11-05; el valor vigente de cada corrida está
+siempre en el JSON o CSV citado.
+
+### Las dos tablas de Pareto
+
+| Tabla | Archivo | Filas | Contenido |
+|---|---|---|---|
+| Consolidada (una semilla) | `reports/pareto_results.csv` | 8 | 6 configuraciones híbridas (3 tamaños × 2 α) + las 2 referencias (contenido y popularidad), todas con la semilla 42 |
+| Multistamillas (frontera) | `reports/pareto_multiseed.csv` | 18 | 3 semillas × 3 tamaños × 2 α con la columna `is_pareto`: es la frontera de 18 configuraciones que se cita en el PDF |
+
+La tabla consolidada la escribe el notebook y la tabla multistamillas la escribe
+`scripts/lab09_pareto.py`: **nunca comparten nombre**, así que ejecutar una no pisa la otra.
+
+### Tabla consolidada del Ejercicio 05 (`reports/pareto_results.csv`, 8 filas)
 
 | Configuración | HitRate@10 | Cobertura | RMSE | Ajuste (s) | Modelo (KB) |
 |---|---|---|---|---|---|
-| mf40 α=0,75 | 0,03918 | 10,06 % | 1,0211 | 7,92 | 3.494 |
-| mf20 α=0,75 | 0,03748 | 7,75 % | 1,0264 | 7,52 | 1.883 |
-| mf10 α=0,75 | 0,03066 | 5,77 % | 1,0337 | 7,45 | 1.077 |
-| mf20 α=0,25 | 0,03237 | 10,65 % | 1,0264 | 7,52 | 1.883 |
-| mf10 α=0,25 | 0,02896 | 8,38 % | 1,0337 | 7,45 | 1.077 |
-| mf40 α=0,25 | 0,02726 | 12,27 % | 1,0211 | 7,92 | 3.494 |
-| contenido (referencia) | 0,00000 | 19,07 % | — | — | — |
-| popularidad (referencia) | 0,02131 | 0,10 % | — | — | — |
+| mf40_alpha0.75 | 0,03918 | 10,06 % | 1,0211 | 7,63 | 3.494 |
+| mf20_alpha0.75 | 0,03748 | 7,75 % | 1,0264 | 7,59 | 1.883 |
+| mf20_alpha0.25 | 0,03237 | 10,65 % | 1,0264 | 7,59 | 1.883 |
+| mf10_alpha0.75 | 0,03066 | 5,77 % | 1,0337 | 7,44 | 1.077 |
+| mf10_alpha0.25 | 0,02896 | 8,38 % | 1,0337 | 7,44 | 1.077 |
+| mf40_alpha0.25 | 0,02726 | 12,27 % | 1,0211 | 7,63 | 3.494 |
+| popularidad | 0,02131 | 0,10 % | — | — | — |
+| contenido | 0,00000 | 19,07 % | — | — | — |
 
 Lectura: `alpha=0,75` (más peso colaborativo) gana en acierto y **pierde** cobertura en las tres
 comparaciones; el contenido tiene la mayor cobertura pero acierto nulo, y la popularidad acierta
 poco y cubre 10 películas para todos los usuarios.
+
+### Frontera multistamillas (`reports/pareto_multiseed.csv`, 18 filas)
+
+| Semilla | Factores | α | HitRate@10 | Cobertura | Ajuste (s, mediana de 3) | Modelo (KB) |
+|---|---|---|---|---|---|---|
+| 42 | 10 | 0,75 | 0,03066 | 5,77 % | 7,39 s | 1.077 KB |
+| 2024 | 10 | 0,75 | 0,05111 | 5,79 % | 7,41 s | 1.077 KB |
 
 ## Documentación
 
@@ -108,8 +139,8 @@ poco y cubre 10 películas para todos los usuarios.
 | `docs/CIERRE_INTERPRETATIVO_LAB09.md` | Cierre interpretativo del LAB09 |
 | `REQUISITOS_LAB08.md`, `REQUISITOS_LAB09.md` | Requisitos y evidencia según el manual del profesor |
 | `CAMBIOS_AL_BASE.md` | Cambios aplicados sobre el proyecto base y su justificación |
-| `docs/EJERCICIO_05_PDF_BRIEF.pdf` | PDF breve de entrega (4 páginas) con la tabla principal y las figuras |
-| `AI_USE_DECLARATION.md` | Uso honesto del asistente de IA y verificaciones pendientes del estudiante |
+| `docs/EJERCICIO_05_PDF_BRIEF.pdf` | PDF breve de entrega (4 páginas) con las dos tablas de Pareto y las figuras |
+| `AI_USE_DECLARATION.md` | Uso honesto del asistente de IA: herramienta, prompts, verificaciones con comando y salida, correcciones y límites |
 
 ## Interpretación
 

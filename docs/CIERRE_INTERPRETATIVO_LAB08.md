@@ -1,25 +1,33 @@
 # LAB08 · Cierre interpretativo
 
-Proyecto: `INF8239_U03_Recomendadores` · Evidencia: `reports/` · Fecha: 2026-11-01
+Proyecto: `INF8239_U03_Recomendadores` · Evidencia: `reports/` · Fecha: 2026-11-05
 
 ## Resultado principal
 
-El corpus está **localizado, descargado, auditado y documentado**: MovieLens *Latest Small* (100.836
-valoraciones, 610 usuarios, 9.742 películas, densidad 1,6968 %, periodo 2017-01-01 a 2018-09-24), con
-SHA-256 `696d65a3…e436` registrado y reproducido por `scripts/download_data.py`. Sobre ese corpus
-funcionan las dos políticas del laboratorio: el **baseline de popularidad suavizada** y el
-**recomendador por contenido**.
+El corpus está **localizado, descargado, auditado y documentado**: MovieLens *Latest Small*
+(100.836 valoraciones, 610 usuarios,
+9.742 películas, densidad 1,6968 %, periodo
+1996-03-29 a 2018-09-24), con SHA-256 `696d65a3…e436` registrado y
+reproducido por `scripts/download_data.py`. Sobre ese corpus funcionan las dos políticas del
+laboratorio: el **baseline de popularidad suavizada** y el **recomendador por contenido**.
 
 ## Evidencia utilizada
 
 | Evidencia | Archivo | Qué muestra |
 |---|---|---|
 | Descarga con hash | salida de `scripts/download_data.py` | SHA-256 de los bytes obtenidos |
-| Auditoría completa | `reports/audit_summary.json` | filas, usuarios, ítems, densidad, rango temporal, distribución de valoraciones |
-| Baseline de popularidad | `reports/popular_top10.csv` | *The Shawshank Redemption* (4,3952), *The Godfather* (4,2427), *Fight Club* (4,2327) |
+| Auditoría completa | `reports/audit_summary.json` | filas, usuarios, ítems, densidad, rango temporal, nulos, duplicados, distribución de valoraciones |
+| Baseline de popularidad | `reports/popular_top10.csv` | *Shawshank Redemption, The (1994)* (4,3952) · *Godfather, The (1972)* (4,2427) · *Fight Club (1999)* (4,2327) |
 | Tres consultas por contenido | `reports/content_recommendations_toy_story.csv`, `..._matrix.csv`, `..._godfather.csv` | listas Top-10 con `content_score` y géneros |
-| Pruebas | `uv run pytest tests/test_data.py tests/test_content.py -q` | 7 passed |
+| Pruebas | `uv run pytest tests/test_data.py tests/test_content.py -q` | 4 passed (el subconjunto de datos y contenido) |
+| Pruebas completas | `uv run pytest -q` | 7 passed |
 | Documentación | `docs/DATASET_CARD.md` | procedencia, licencia, diccionario, sesgos y usos prohibidos |
+
+La auditoría no encuentra **ningún nulo** en `ratings.csv` ni en `movies.csv`; sí registra
+5 títulos de película repetidos en el catálogo y
+18 ítems sin ninguna valoración
+(9.742 − 9.724) — que es la cifra que antes se
+presentaba como «duplicados de texto».
 
 ## Qué representa la similitud
 
@@ -43,10 +51,11 @@ todos, y eso debe declararse en la interfaz y en las conclusiones.
 ## Riesgo de sobre-especialización
 
 El riesgo está confirmado y es **estructural**, no accidental: al usar únicamente géneros, el
-recomendador devuelve variations de la misma combinación temática. El efecto practical es una burbuja
-de filtro: el usuario recibe más de lo mismo, con poca exploración de categorías distintas. Agravantes
-medibles: la densidad del corpus es 1,7 % (la evidencia de genres es escasa) y el catálogo incluye
-9.742 películas de las cuales solo 9.724 tienen alguna valoración.
+recomendador devuelve variaciones de la misma combinación temática. El efecto práctico es una burbuja
+de filtro: el usuario recibe más de lo mismo, con poca exploración de categorías distintas.
+Agravantes medibles: la densidad del corpus es 1,70 % (la evidencia de
+géneros es escasa) y el catálogo incluye 9.742 películas de las cuales solo
+9.724 tienen alguna valoración.
 
 ## Decisión o siguiente experimento
 

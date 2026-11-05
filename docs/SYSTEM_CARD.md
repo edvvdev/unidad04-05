@@ -1,6 +1,6 @@
 # System Card · Recomendador híbrido (LAB08 y LAB09)
 
-Proyecto: `INF8239_U03_Recomendadores` · Unidad 03 · Fecha de la evaluación: 2026-11-01
+Proyecto: `INF8239_U03_Recomendadores` · Unidad 03 · Fecha de la evaluación: 2026-11-05
 
 ## Usuarios y propósito
 
@@ -27,8 +27,7 @@ una función de puntuación y una política explícita.
 |---|---|---|
 | Popularidad suavizada | `weighted_popularity`: media de la película combinada con la media global, ponderada por el número de valoraciones | «Lo que ve mucha gente con nota alta» |
 | Contenido | TF-IDF de los géneros + similitud coseno (`ContentRecommender`) | «Comparte los géneros registrados» |
-| Colaborativa | Factorización de matriz con 20 factores, 12 épocas, SGD (`MatrixFactorization`) | «Se parece a lo que
-valoraron usuarios parecidos» |
+| Colaborativa | Factorización de matriz con 20 factores, 12 épocas, SGD (`MatrixFactorization`) | «Se parece a lo que valoraron usuarios parecidos» |
 | Híbrida | `alpha` pondera la señal colaborativa y `1 - alpha` la de contenido (`src/inf8239_u03/hybrid.py`) | Combinación explícita de ambas señales |
 
 ## Modelos y fallback
@@ -48,13 +47,15 @@ valoraron usuarios parecidos» |
 | RMSE | Error de predicción de ratings | Mide aproximación, **no** utilidad de la lista |
 | HitRate@10 | Proporción de usuarios cuyo ítem retenido aparece en el Top-10 | Depende del corte temporal y del Top-10 |
 | Cobertura del catálogo | Proporción de ítems distintos recomendados | Indica concentración, no diversidad percibida |
+| Frontera de Pareto | 18 configuraciones (3 semillas × 3 tamaños × 2 α) en `reports/pareto_multiseed.csv` | El tiempo de ajuste es la mediana de 3 repeticiones: el ruido de medición es comparable a las diferencias entre configuraciones |
 
-Resultados de referencia (semilla 42, 20 factores, 12 épocas, `reports/hybrid_metrics.json`):
+Resultados de referencia (semilla 42, 20 factores, 12 épocas; `reports/hybrid_metrics_alpha075.json` y
+`reports/hybrid_metrics_alpha025.json`):
 
 | α | RMSE | HitRate@10 | Cobertura | Tiempo de ajuste | Tamaño del modelo |
 |---|---|---|---|---|---|
-| 0,75 | 1,0264 | 0,03748 | 7,75 % | 7,54 s | 1.883 KB |
-| 0,25 | 1,0264 | 0,03237 | 10,65 % | 7,43 s | 1.883 KB |
+| 0,75 | 1,0264 | 0,03748 | 7,75 % | 7,43 s | 1.883 KB |
+| 0,25 | 1,0264 | 0,03237 | 10,65 % | 7,74 s | 1.883 KB |
 
 El RMSE **no cambia** con `alpha` porque depende solo de la factorización: es la evidencia de que
 predecir ratings y ordenar ítems son tareas distintas.
