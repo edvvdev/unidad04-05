@@ -13,7 +13,7 @@ ratings, movies = load_movielens(MOVIELENS_DIR)
 reports = ROOT / "reports"
 reports.mkdir(exist_ok=True)
 popular = weighted_popularity(ratings, movies).head(10)
-popular[["title", "count", "mean", "weighted_score"]].to_csv(reports / "popular_top10.csv")
+popular[["title", "count", "mean", "weighted_score"]].to_csv(reports / "popular_top10.csv", index=False)
 recommendations = ContentRecommender().fit(movies).recommend(args.title, 10)
 recommendations.to_csv(reports / args.out, index=False)
 print("Popularidad:\n", popular[["title", "count", "mean", "weighted_score"]])
