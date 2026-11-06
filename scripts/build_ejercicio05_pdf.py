@@ -106,7 +106,7 @@ styles.add(ParagraphStyle(name="IdCelda", parent=styles["BodyText"], fontSize=8.
 story = []
 story.append(Paragraph("Ejercicio 05 · Motor recomendador reproducible", styles["Title2"]))
 story.append(Paragraph(
-    "INF-8239 Ciencia de Datos II (UASD) · Unidad 04 · Consolidación de LAB08 y LAB09", styles["Small"]))
+    "INF-8239 Ciencia de Datos II (UASD) · Unidad 03 · Consolidación de LAB08 y LAB09", styles["Small"]))
 story.append(Spacer(1, 6))
 
 identificacion = [
@@ -181,6 +181,17 @@ tabla_res.setStyle(TableStyle([
 ]))
 story.append(tabla_res)
 story.append(Spacer(1, 4))
+story.append(Paragraph(
+    "Nota: los tiempos de ajuste de esta tabla son los de su propio archivo "
+    "(<font face='Courier'>reports/pareto_results.csv</font>). Los archivos de la entrega se generaron en "
+    "<b>corridas distintas</b> (mismo c\u00f3digo y misma semilla), de modo que una misma configuraci\u00f3n aparece "
+    "con tiempos de ajuste ligeramente distintos seg\u00fan el archivo: no es una contradicci\u00f3n, <b>la \u00fanica "
+    "fuente de verdad de cada cifra es su archivo</b>. Para citar el tiempo de una configuraci\u00f3n se usa el del "
+    f"JSON del h\u00edbrido: {es(metricas075['train_seconds'], 2)} s para \u03b1=0,75 "
+    f"(<font face='Courier'>reports/hybrid_metrics_alpha075.json</font>) y "
+    f"{es(metricas025['train_seconds'], 2)} s para \u03b1=0,25 "
+    "(<font face='Courier'>reports/hybrid_metrics_alpha025.json</font>).", styles["Small"]))
+story.append(Spacer(1, 4))
 popularidad = fila_de("popularidad")
 contenido = fila_de("contenido")
 story.append(Paragraph(
@@ -226,6 +237,12 @@ if multiseed:
         ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
     ]))
     bloque3.append(tabla_frontera)
+    bloque3.append(Spacer(1, 4))
+    bloque3.append(Paragraph(
+        "Nota: los tiempos de esta tabla son los de su propio archivo "
+        "(<font face='Courier'>reports/pareto_multiseed.csv</font>: mediana de tres repeticiones, corrida propia), "
+        "no los de la tabla consolidada de la secci\u00f3n 2; la nota de esa secci\u00f3n explica por qu\u00e9 conviven "
+        "tiempos distintos de la misma configuraci\u00f3n.", styles["Small"]))
     bloque3.append(Spacer(1, 4))
     bloque3.append(Paragraph(
         f"Con las {multiseed.get('configuraciones', 0)} configuraciones el HitRate@10 va de "

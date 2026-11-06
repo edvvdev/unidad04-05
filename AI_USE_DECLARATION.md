@@ -1,7 +1,7 @@
 # Declaración de uso de inteligencia artificial · Ejercicio 05
 
 Proyecto: `INF8239_U03_Recomendadores` (Ejercicio 05 · consolidación de LAB08 y LAB09) · Curso:
-INF-8239 Ciencia de Datos II · Unidad 04 · Fecha: 2026-11-05
+INF-8239 Ciencia de Datos II · Unidad 03 · Fecha: 2026-11-05
 
 Esta declaración describe **únicamente este ejercicio**. No contiene material de otros proyectos
 (logística, Naive Bayes, modelos generativos) ni referencias a archivos que no existen en este
@@ -76,6 +76,9 @@ ejercicio.
 | Marcadores distintos en la leyenda de `reports/pareto.png` | 10, 20 y 40 factores usaban el mismo marcador | La figura se regenera con `scripts/lab09_pareto.py` |
 | `uv run ruff check .` en verde | Quedaban 4 hallazgos (3 en el notebook y 1 en el builder del PDF) | `All checks passed!` |
 | Un solo esquema por artefacto (`popular_top10.csv`, `profile_recommendations.csv`) | El runner escribe los scripts y luego el notebook, y ambos producían CSV con columnas distintas | Se ejecutaron los scripts después del notebook y los artefactos no cambiaron |
+| La celda de perfiles del notebook calculaba el *fallback* del usuario frío con otra definición de popularidad que `scripts/lab09_profiles.py` | Mismo código y misma semilla, pero dos escritores: el artefacto publicado dependía del orden (runner = scripts y luego notebook) | El notebook usa ahora la misma definición (cantidad y media sobre el corte temporal) y la misma etiqueta de método: después del flujo completo, `reports/profile_recommendations.csv` queda byte a byte igual al publicado |
+| La página 1 del PDF y la cabecera de esta declaración decían «Unidad 04» | El repositorio `unidad04-05` heredó la numeración global de la Tarea y el etiqueta se copió al PDF | El PDF y esta declaración dicen «Unidad 03»; el README declara en una línea que el nombre del repositorio no se cambia para no romper los enlaces publicados |
+| Tres tiempos de ajuste para la misma configuración (7,43 s · 7,82 s · 7,70 s) | Corridas distintas de los mismos scripts, cada cifra atribuida a su archivo | El README y el PDF dicen, junto a cada tabla, que los tiempos son de corridas distintas y que la única fuente de verdad de cada cifra es su archivo; el texto cita un solo tiempo por configuración (7,75 s para α=0,75 y 7,57 s para α=0,25, calculados desde los JSON) |
 
 ## Límites y responsabilidades del estudiante
 

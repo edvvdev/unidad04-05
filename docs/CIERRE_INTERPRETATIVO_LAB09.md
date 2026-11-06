@@ -54,8 +54,8 @@ de `reports/pareto_multiseed.csv`:
 
 | Semilla | Factores | α | HitRate@10 | Cobertura | Tiempo (mediana) | Modelo |
 |---|---|---|---|---|---|---|
-| 42 | 10 | 0,75 | 0,03066 | 5,77 % | 7,39 s | 1.077 KB |
-| 2024 | 10 | 0,75 | 0,05111 | 5,79 % | 7,41 s | 1.077 KB |
+| 42 | 10 | 0,75 | 0,03066 | 5,77 % | 7,42 s | 1.077 KB |
+| 2024 | 10 | 0,75 | 0,05111 | 5,79 % | 7,50 s | 1.077 KB |
 
 Ninguna otra configuración las domina. La lectura honesta es que **el tiempo de ajuste y la
 utilidad son los ejes que discriminan** y el tamaño del modelo los acompaña: en esta corrida la
@@ -68,9 +68,9 @@ frontera: baja el acierto en el Top-10 y sube la cobertura, es decir, cambia *qu
 
 | Configuración | Tiempo de ajuste (mediana de 3) | Tamaño del modelo | RMSE |
 |---|---|---|---|
-| 10 factores | 7,39–7,47 s | 1.077 KB | 1,0265–1,0337 |
-| 20 factores | 7,42–7,70 s | 1.883 KB | 1,0259–1,0266 |
-| 40 factores | 7,46–7,51 s | 3.494 KB | 1,0168–1,0244 |
+| 10 factores | 7,42–7,54 s | 1.077 KB | 1,0265–1,0337 |
+| 20 factores | 7,61–7,74 s | 1.883 KB | 1,0259–1,0266 |
+| 40 factores | 7,51–7,74 s | 3.494 KB | 1,0168–1,0244 |
 
 El tiempo de ajuste es **prácticamente constante** (±0,3 s) porque lo domina el número de
 observaciones × épocas del SGD, no el número de factores; el costo que sí crece de forma clara es el

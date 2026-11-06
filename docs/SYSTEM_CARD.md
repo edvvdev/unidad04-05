@@ -54,8 +54,8 @@ Resultados de referencia (semilla 42, 20 factores, 12 épocas; `reports/hybrid_m
 
 | α | RMSE | HitRate@10 | Cobertura | Tiempo de ajuste | Tamaño del modelo |
 |---|---|---|---|---|---|
-| 0,75 | 1,0264 | 0,03748 | 7,75 % | 7,43 s | 1.883 KB |
-| 0,25 | 1,0264 | 0,03237 | 10,65 % | 7,74 s | 1.883 KB |
+| 0,75 | 1,0264 | 0,03748 | 7,75 % | 7,75 s | 1.883 KB |
+| 0,25 | 1,0264 | 0,03237 | 10,65 % | 7,57 s | 1.883 KB |
 
 El RMSE **no cambia** con `alpha` porque depende solo de la factorización: es la evidencia de que
 predecir ratings y ordenar ítems son tareas distintas.

@@ -192,6 +192,53 @@ scripts después del notebook: los artefactos no cambian.
 hacía ilegible. Ahora el color identifica α, el marcador identifica la semilla y el tamaño (y el
 marcador de la leyenda) identifican el número de factores.
 
+## 15. D10-D12 · Revisión de cierre de la entrega (2026-11-05)
+
+### D10 · Etiqueta de unidad del PDF y del README
+
+**Antes:** la página 1 del PDF (`scripts/build_ejercicio05_pdf.py`) decía «Unidad 04 · Consolidación de
+LAB08 y LAB09» y la cabecera de `AI_USE_DECLARATION.md` decía «Unidad 04», cuando este ejercicio es de
+la **Unidad 03** (LAB08 + LAB09). El resto de la entrega (README, Dataset Card, System Card) ya decía
+Unidad 03.
+
+**Corrección:** el PDF dice «Unidad 03 · Consolidación de LAB08 y LAB09» y la declaración de IA
+«Unidad 03». El **nombre del repositorio no se cambia** (`unidad04-05` heredó la numeración global de
+la Tarea antes de la convención `unidad<NN>-<ordinal>`): renombrarlo rompería los enlaces ya
+publicados y los PDF que los citan. El README lo declara en una línea inequívoca: «Este ejercicio es
+de la Unidad 03 (consolida LAB08 y LAB09): el nombre del repositorio `unidad04-05` heredó la
+numeración global de la Tarea INF-8239 y se conserva para no romper los enlaces ya publicados y los
+PDF que los citan».
+
+### D11 · Tres tiempos de ajuste para la misma configuración
+
+**Antes:** la misma configuración (α=0,75 con 20 factores) aparecía con tres tiempos distintos: 7,43 s
+en `reports/hybrid_metrics_alpha075.json`, 7,82 s en `reports/pareto_results.csv` y 7,70 s en
+`reports/pareto_multiseed.csv`. Son corridas distintas (mismo código y misma semilla) y cada cifra
+pertenecía a su archivo, pero el README y el PDF presentaban dos de ellas sin decirlo.
+
+**Corrección:** el README y el PDF dicen ahora, junto a cada tabla, que **los tiempos provienen de
+corridas distintas** y que **la única fuente de verdad de cada cifra es su archivo**; y el texto
+homogénea el tiempo de cada configuración al del JSON del híbrido (7,75 s para α=0,75 y 7,57 s para
+α=0,25), mientras cada tabla de Pareto reproduce el tiempo de su propio CSV. El generador del PDF
+calcula los dos tiempos del párrafo desde `reports/hybrid_metrics_alpha075.json` y
+`reports/hybrid_metrics_alpha025.json`, así que no hay literales.
+
+### D12 · El notebook y el script escribían Cold-start distinto
+
+**Antes:** la celda de perfiles del notebook calculaba la lista de fallback del usuario frío con
+`weighted_popularity(ratings, movies)` (mediana global suavizada, sobre todas las valoraciones),
+mientras `scripts/lab09_profiles.py` la calculaba con cantidad de valoraciones y media sobre el corte
+temporal. Como el runner ejecuta los scripts **antes** del notebook, el artefacto publicado cambiaba
+según el orden: el cierre del LAB09 y el PDF citaban *Forrest Gump (1994)*, *Shawshank Redemption,
+The (1994)*, *Pulp Fiction (1994)*… (definición del script) y el notebook escribía otra lista.
+
+**Corrección:** la celda del notebook usa ahora la misma definición que `scripts/lab09_profiles.py`
+(cantidad de valoraciones y media, sobre el corte temporal) y la misma etiqueta de método
+(`fallback de popularidad (no personalizado)`). Verificado: después de ejecutar el flujo completo,
+`reports/profile_recommendations.csv` queda **byte a byte igual** al publicado y el notebook y el
+script escriben el mismo artefacto. La definición del fallback se documenta en
+`docs/SYSTEM_CARD.md` («Popularidad por cantidad y media»).
+
 ## Comandos ejecutados para verificar (en esta máquina)
 
 ```bash
@@ -237,8 +284,8 @@ LAB09 (corte temporal leave-one-out, 20 factores, 12 épocas):
 
 | α | RMSE | HitRate@10 | Cobertura | Tiempo | Tamaño |
 |---|---|---|---|---|---|
-| 0,75 | 1,0264 | 0,03748 | 7,75 % | 7,43 s | 1.883 KB |
-| 0,25 | 1,0264 | 0,03237 | 10,65 % | 7,74 s | 1.883 KB |
+| 0,75 | 1,0264 | 0,03748 | 7,75 % | 7,75 s | 1.883 KB |
+| 0,25 | 1,0264 | 0,03237 | 10,65 % | 7,57 s | 1.883 KB |
 
 Lectura: el RMSE no cambia porque depende solo de la factorización; al subir α (más peso
 colaborativo) sube el acierto en el Top-10 y baja la cobertura del catálogo; con α bajo ocurre lo
@@ -248,5 +295,5 @@ valores de α. La frontera de Pareto de esta corrida la ocupan:
 
 | Semilla | Factores | α | HitRate@10 | Cobertura | Tiempo (mediana) | Modelo |
 |---|---|---|---|---|---|---|
-| 42 | 10 | 0,75 | 0,03066 | 5,77 % | 7,39 s | 1.077 KB |
-| 2024 | 10 | 0,75 | 0,05111 | 5,79 % | 7,41 s | 1.077 KB |
+| 42 | 10 | 0,75 | 0,03066 | 5,77 % | 7,42 s | 1.077 KB |
+| 2024 | 10 | 0,75 | 0,05111 | 5,79 % | 7,50 s | 1.077 KB |
