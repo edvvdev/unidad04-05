@@ -75,6 +75,7 @@ ejercicio.
 | `pytest tests/test_data.py tests/test_content.py -q` documentado como 4 passed (7 es el total) | Cifra incorrecta en el cierre de LAB08 | `uv run pytest -q` → 7 passed; el subconjunto → 4 passed |
 | Marcadores distintos en la leyenda de `reports/pareto.png` | 10, 20 y 40 factores usaban el mismo marcador | La figura se regenera con `scripts/lab09_pareto.py` |
 | `uv run ruff check .` en verde | Quedaban 4 hallazgos (3 en el notebook y 1 en el builder del PDF) | `All checks passed!` |
+| Un solo esquema por artefacto (`popular_top10.csv`, `profile_recommendations.csv`) | El runner escribe los scripts y luego el notebook, y ambos producían CSV con columnas distintas | Se ejecutaron los scripts después del notebook y los artefactos no cambiaron |
 
 ## Límites y responsabilidades del estudiante
 

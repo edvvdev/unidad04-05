@@ -176,7 +176,17 @@ con `%` y un bloque de imports mal ordenado en el notebook, más el bloque de im
 PDF. Se corrigieron todos con `ruff check --fix` y edición directa: no cambian el comportamiento y
 el verificador queda en verde (`All checks passed!`).
 
-## 13. Figuras
+## 13. Un solo esquema por artefacto (scripts y notebook)
+
+Con el runner ejecutando los scripts del LAB08/LAB09 **y** el notebook, cada CSV de `reports/` podía
+quedar escrito con dos esquemas distintos según cuál de los dos writers hubiera corrido al final:
+`reports/popular_top10.csv` (con o sin la columna `movieId`) y
+`reports/profile_recommendations.csv` (con o sin las columnas de puntuación por señal). Se
+igualaron: `scripts/lab08_content.py` escribe el mismo CSV que el notebook y la celda de perfiles
+del notebook escribe las mismas columnas que `scripts/lab09_profiles.py`. Verificado ejecutando los
+scripts después del notebook: los artefactos no cambian.
+
+## 14. Figuras
 
 `reports/pareto.png` usaba el mismo marcador para «10 / 20 / 40 factores» en la leyenda, lo que la
 hacía ilegible. Ahora el color identifica α, el marcador identifica la semilla y el tamaño (y el
