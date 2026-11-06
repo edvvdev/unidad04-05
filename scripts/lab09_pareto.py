@@ -39,7 +39,8 @@ reports.mkdir(exist_ok=True)
 cache = reports / MULTISEED_CSV
 
 rows = []
-if "--reutilizar" in sys.argv and cache.exists():
+reutilizado = "--reutilizar" in sys.argv and cache.exists()
+if reutilizado:
     results = pd.read_csv(cache)
     print("Reutilizando", cache)
 else:
@@ -85,8 +86,11 @@ results["is_pareto"] = pareto_flags(results)
 columnas = ["seed", "factors", "epochs", "alpha", "hit_rate_at_10", "catalog_coverage",
             "rmse", "fit_time_s", "model_size_kb", "is_pareto"]
 results = results[columnas]
-results.to_csv(cache, index=False)
-print("Tabla multistamillas guardada:", cache, f"({len(results)} configuraciones)")
+if not reutilizado:
+    results.to_csv(cache, index=False)
+    print("Tabla multistamillas guardada:", cache, f"({len(results)} configuraciones)")
+else:
+    print("Tabla multistamillas intacta:", cache, f"({len(results)} configuraciones)")
 
 figure, axes = plt.subplots(1, 2, figsize=(13.5, 5.5))
 colors = {0.25: "#0f7c7b", 0.75: "#b45309"}
@@ -107,13 +111,15 @@ axes[0].plot(frontier["fit_time_s"], frontier["hit_rate_at_10"], "--", color="#3
              label="frontera de Pareto (utilidad)")
 axes[1].scatter(frontier["fit_time_s"], frontier["catalog_coverage"], marker="*", s=240,
                 color="#111827", zorder=5, label="configuración en la frontera")
-for _, row in frontier.iterrows():
-    axes[0].annotate(f"s{row['seed']}·f{row['factors']}·a{row['alpha']}",
-                     (row["fit_time_s"], row["hit_rate_at_10"]),
-                     textcoords="offset points", xytext=(8, -14), fontsize=8, color="#111827")
-    axes[1].annotate(f"s{row['seed']}·f{row['factors']}·a{row['alpha']}",
-                     (row["fit_time_s"], row["catalog_coverage"]),
-                     textcoords="offset points", xytext=(8, -14), fontsize=8, color="#111827")
+# las etiquetas de la frontera se alternan para que no se solapen
+for posicion, (_, row) in enumerate(frontier.iterrows()):
+    etiqueta = f"s{row['seed']}·f{row['factors']}·a{row['alpha']}"
+    desplazamiento_izq = (8, -16) if posicion % 2 == 0 else (8, 8)
+    desplazamiento_der = (8, 8) if posicion % 2 == 0 else (8, -16)
+    axes[0].annotate(etiqueta, (row["fit_time_s"], row["hit_rate_at_10"]),
+                     textcoords="offset points", xytext=desplazamiento_izq, fontsize=8, color="#111827")
+    axes[1].annotate(etiqueta, (row["fit_time_s"], row["catalog_coverage"]),
+                     textcoords="offset points", xytext=desplazamiento_der, fontsize=8, color="#111827")
 axes[0].set(xlabel="Tiempo de ajuste (s)", ylabel="HitRate@10", title="Utilidad frente a costo computacional")
 axes[1].set(xlabel="Tiempo de ajuste (s)", ylabel="Cobertura del catálogo", title="Cobertura frente a costo computacional")
 alpha_handles = [Patch(facecolor=colors[alpha], label=f"alpha={alpha}") for alpha in ALPHAS]
